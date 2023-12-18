@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "default-helm-app.name" -}}
+{{- define "nginx-app-chart.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "default-helm-app.fullname" -}}
+{{- define "nginx-app-chart.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "default-helm-app.chart" -}}
+{{- define "nginx-app-chart.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "default-helm-app.labels" -}}
-helm.sh/chart: {{ include "default-helm-app.chart" . }}
-{{ include "default-helm-app.selectorLabels" . }}
+{{- define "nginx-app-chart.labels" -}}
+helm.sh/chart: {{ include "nginx-app-chart.chart" . }}
+{{ include "nginx-app-chart.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "default-helm-app.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "default-helm-app.name" . }}
+{{- define "nginx-app-chart.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "nginx-app-chart.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "default-helm-app.serviceAccountName" -}}
+{{- define "nginx-app-chart.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "default-helm-app.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "nginx-app-chart.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
